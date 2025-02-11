@@ -1,43 +1,37 @@
-import 'package:admin_panel/add_note.dart';
-import 'package:admin_panel/note_controller.dart';
+import 'package:admin_panel/poem_full_view.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-// HomeScreen
-class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+import 'full_porem_model.dart';
 
-  final NoteController noteController = Get.put(NoteController());
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Note pad"),
+        title: const Text("Poem Stories"),
       ),
-      body: Obx(() => ListView.builder(
-            itemCount: noteController.notes.length,
-            itemBuilder: (context, index) {
-              final noteData = noteController.notes[index];
-
-              return Card(
-                child: ListTile(
-                  title: Text(noteData.title),
-                  subtitle: Text(noteData.content),
-                  trailing: IconButton(
-                      onPressed: () {
-                        noteController.deleteNote(index);
-                      },
-                      icon: const Icon(Icons.delete)),
-                ),
-              );
-            },
-          )),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.to(AddNoteScreen());
+      body: ListView.builder(
+        itemCount: FullPoremModel.poem.length,
+        itemBuilder: (context, index) {
+          PoemModel porm00 = FullPoremModel.poem[index];
+          return Card(
+            child: ListTile(
+              title: Text(porm00.name),
+              subtitle: Text(porm00.writterName),
+              trailing: IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                PoemFullView(porm00.name, porm00.fullPoem)));
+                  },
+                  icon: const Icon(Icons.error_sharp)),
+            ),
+          );
         },
-        child: Icon(Icons.add),
       ),
     );
   }
@@ -46,36 +40,56 @@ class HomeScreen extends StatelessWidget {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
-class HomeScreen extends StatelessWidget {
-  final NoteController noteController = Get.put(NoteController());
+import 'package:e_commerce_provider/full_porem_model.dart';
+import 'package:e_commerce_provider/poem_full_view.dart';
+import 'package:flutter/material.dart';
+
+import 'poem_model.dart';
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Kids Note App'),
+        title: const Text("Lasted Poeam"),
       ),
-      body: Obx(() => ListView.builder(
-            itemCount: noteController.notes.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(noteController.notes[index].title),
-                subtitle: Text(noteController.notes[index].content),
-                trailing: IconButton(
-                  icon: const Icon(Icons.delete),
+      body: ListView.builder(
+        itemCount: poemSourc.fullporem.length,
+        itemBuilder: (context, index) {
+          PoemModel poem00 = poemSourc.fullporem[index];
+          // poemSourc = poem00 = fullporem.PoemModel[index];
+          return Card(
+            child: ListTile(
+              title: Text(poem00.name),
+              subtitle: Text(poem00.writerName),
+              trailing: IconButton(
                   onPressed: () {
-                    noteController.deleteNote(index);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) =>
+                                PoemFullView(poem00.name, poem00.fullPoem)));
                   },
-                ),
-              );
-            },
-          )),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.to(() => AddNoteScreen());
+                  icon: Icon(Icons.error)),
+            ),
+          );
         },
-        child: const Icon(Icons.add),
       ),
     );
   }
